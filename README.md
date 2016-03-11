@@ -9,15 +9,20 @@ Try this on an empty HTML and see what's being written in a console.
   var foo = new Draggable({ el: document.body });
 ```
 
+el, must be a HTML DOM element and must be supplied.
+
 ###### Callback Function Signature
 
 ```javascript
   function( x, y, el ){
   
     console.log( 
-      'x: ' + x + ' y: ' + y + 
+    
+      ' x:     ' + x + 
+      ' y:     ' + y + 
       ' class: ' + el.getAttribute( 'class' ) + 
-      ' id: ' + el.getAttribute( 'id' ) 
+      ' id:    ' + el.getAttribute( 'id' ) 
+      
     );
     
   }
