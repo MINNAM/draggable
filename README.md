@@ -3,17 +3,27 @@ A minimal javascript library for handling click and drag.
 
 ##### Basic Example
 
+```HTML
+<script src='draggable.js'></script>
+```
+
 Try this on an empty HTML and see what's being written in a console.
 
-```javascript
-  var foo = new Draggable({ el: document.body });
+```HTML
+  <script>
+  
+    var foo = new Draggable({ el: document.body });
+    
+  </script>
 ```
 
 el, must be a HTML DOM element and must be supplied.
 
 ##### Callback Function Signature
 
-```javascript
+```HTML
+  <script>
+  
   function( x, y, el ){
   
     console.log( 
@@ -26,10 +36,13 @@ el, must be a HTML DOM element and must be supplied.
     );
     
   }
+  
+  </script>
 ```
 
 ##### Implementing Individual Callback Functions
-```javascript
+```HTML
+  <script>
 
   var foo = new Draggable({
     
@@ -48,12 +61,15 @@ el, must be a HTML DOM element and must be supplied.
     },
   
   });
-
+  
+  </script>
 ```
 
 or
 
-```javascript
+```HTML
+  <script>
+  
   var foo = new Draggable({ el: document.body });
   
   foo.set( 'up', function( x, y, el ){
@@ -62,5 +78,6 @@ or
     
   });
   
+  </script>
 ```
 
