@@ -9,7 +9,7 @@ A minimal javascript library for handling click and drag.
 
 ```
 
-Try this on an empty HTML and see what's being written in a console.
+
 
 ```HTML
 
@@ -20,7 +20,7 @@ Try this on an empty HTML and see what's being written in a console.
 </script>
 
 ```
-
+Try this on an empty HTML and see what's being written in a console.
 el, must be a HTML DOM element and must be supplied.
 
 ##### Callback Function Signature
