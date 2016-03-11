@@ -11,7 +11,7 @@ Try this on an empty HTML and see what's being written in a console.
 
 el, must be a HTML DOM element and must be supplied.
 
-###### Callback Function Signature
+##### Callback Function Signature
 
 ```javascript
   function( x, y, el ){
@@ -28,7 +28,7 @@ el, must be a HTML DOM element and must be supplied.
   }
 ```
 
-###### Implementing Individual Callback Functions
+##### Implementing Individual Callback Functions
 ```javascript
 
   var foo = new Draggable({
