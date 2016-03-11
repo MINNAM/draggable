@@ -5,13 +5,13 @@ A minimal javascript library for handling click and drag.
 
 Try this on an empty HTML and see what's being written in a console.
 
-```javscript
+```javascript
   var foo = new Draggable({ el: document.body });
 ```
 
 ###### Callback Function Signature
 
-```javscript
+```javascript
   function( x, y, el ){
   
     console.log( 
@@ -24,7 +24,7 @@ Try this on an empty HTML and see what's being written in a console.
 ```
 
 ###### Implementing Individual Callback Functions
-```javscript
+```javascript
 
   var foo = new Draggable({
     
@@ -48,7 +48,7 @@ Try this on an empty HTML and see what's being written in a console.
 
 or
 
-```javscript
+```javascript
   var foo = new Draggable({ el: document.body });
   
   foo.set( 'up', function( x, y, el ){
