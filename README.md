@@ -21,7 +21,7 @@ A minimal javascript library for handling click and drag.
 
 ```
 Try this on an empty HTML and see what's being written in a console.
-el, must be a HTML DOM element and must be supplied.
+**el** must be a HTML DOM element and must be supplied.
 
 ##### Callback Function Signature
 
