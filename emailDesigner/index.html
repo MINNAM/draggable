@@ -46,8 +46,8 @@
 
 					nodes[ key ].update();
 
-				}
-
+				
+}
 			}
 
 			return BoxManager;
@@ -162,7 +162,7 @@
 
 		}).down( function( x, y, el, global ) {
 
-			global.box = new Box( canvas.ctx() );
+			global.box = new Box( canvas.ctx(),  );
 			global.box.x = x;
 			global.box.y = y;
 
