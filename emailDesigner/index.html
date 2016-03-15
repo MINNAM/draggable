@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+
+		html{
+
+		   height: 100%;
+
+		}
+
+		body {
+
+			height: 100%;
+
+		}
+
+		.views {
+
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+
+		}
+
+	</style>
+</head>
+<body>
+
+	<canvas class = 'views' id = 'view1' ></canvas>
+	<canvas class = 'views' id = 'view2' ></canvas>
+
+	<script src = '../draggable.js'></script>
+	<script>
+
+		var BoxManager = function() {
+
+			var BoxManager = new List();
+
+			BoxManager.update = function() {
+
+				var nodes = this.nodes();
+
+				for( var key in nodes ) {
+
+					nodes[ key ].update();
+
+				}
+
+			}
+
+			return BoxManager;
+
+		}();
+
+		var Box = function( ctx ) {
+
+			this.ctx    = ctx;
+			this.x 		= 0;
+			this.y 	    = 0;
+			this.width  = 0;
+			this.height = 0;
+
+		}
+
+		Box.prototype.update = function() {
+
+			this.ctx.beginPath();
+
+				this.ctx.rect( this.x, this.y, this.width, this.height );
+				this.ctx.fillStyle = 'rgb(100, 207, 168 )';
+				this.ctx.fill();
+
+			this.ctx.closePath();
+
+		}
+		
+
+		var CanvasManager = function() {
+
+			var CanvasList = new List();
+
+			return CanvasList;
+
+		}
+
+		var Canvas = function( _id ) {
+
+			var Canvas = {},
+			_node,
+			_ctx;
+
+			Canvas.init = function() {
+
+				_node = document.getElementById( _id );
+				_ctx  = _node.getContext( '2d' );
+
+				_node.width  = _node.clientWidth;
+				_node.height = _node.clientHeight;
+
+				return Canvas;
+
+			}
+
+			Canvas.node = function() {
+
+				return _node;
+
+			}
+
+			Canvas.ctx = function(){
+
+				return _ctx;
+
+			}
+
+			Canvas.clear = function() {
+
+				_ctx.clearRect( 0, 0, _node.clientWidth, _node.clientHeight );
+
+			}
+
+			Canvas.path = function( callback ) {
+
+				_ctx.beginPath();
+
+					callback( _ctx );
+
+				_ctx.closePath();
+
+			}
+
+			return Canvas.init();
+
+		}
+
+		var canvas   = new Canvas( 'view1' );
+
+		var drag = DraggableFactory.new({ 
+
+			name: 'view1', node: canvas.node()
+
+		}).move( function( x, y, el, global ) {
+
+			canvas.clear();
+			BoxManager.update();
+
+
+		}).drag( function( x, y, el, global ) {
+
+			canvas.path( function( ctx ) {
+
+				global.box.width  = x - global.box.x;
+				global.box.height = y - global.box.y;
+
+				ctx.rect( global.box.x, global.box.y, global.box.width, global.box.height );
+				ctx.fillStyle = 'rgba(100, 207, 168, 0.1)';
+				ctx.fill();
+
+			});
+
+		}).down( function( x, y, el, global ) {
+
+			global.box = new Box( canvas.ctx() );
+			global.box.x = x;
+			global.box.y = y;
+
+		}).up( function( x, y, el, global ){
+
+			BoxManager.add( BoxManager.size(), global.box );
+
+
+		});
+
+		var canvas2   = new Canvas( 'view2' );
+
+		var drag = DraggableFactory.new({ 
+
+			name: 'view2', node: canvas.node()
+
+		}).move( function( x, y, el, global ) {
+
+			canvas.clear();
+			BoxManager.update();
+
+
+		}).drag( function( x, y, el, global ) {
+
+			canvas.path( function( ctx ) {
+
+				global.box.width  = x - global.box.x;
+				global.box.height = y - global.box.y;
+
+				ctx.rect( global.box.x, global.box.y, global.box.width, global.box.height );
+				ctx.fillStyle = 'rgba(200, 207, 168, 0.1)';
+				ctx.fill();
+
+			});
+
+		}).down( function( x, y, el, global ) {
+
+			global.box = new Box( canvas.ctx() );
+			global.box.x = x;
+			global.box.y = y;
+
+		}).up( function( x, y, el, global ){
+
+			BoxManager.add( BoxManager.size(), global.box );
+
+
+		});
+
+
+	</script>
+</body>
+</html>
