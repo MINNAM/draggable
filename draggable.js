@@ -18,6 +18,7 @@ var Draggable = function( param ) {
 	_callbacks    = { 
 
 		move : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse moving.' ); },
+		double : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse double clicked.' ); },
 		drag : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse dragging.' ); },
 		up   : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse up' ); },
 		down : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse down' ); }
@@ -26,6 +27,7 @@ var Draggable = function( param ) {
 	_temp = { 
 
 		move: function(){},
+		double: function(){},
 		drag: function(){},
 		up  : function(){},
 		down: function(){}
@@ -71,6 +73,15 @@ var Draggable = function( param ) {
 
 				}
 				
+			});
+
+			_el.addEventListener( 'dblclick', function( e ) {
+
+				var x = e.clientX - this.offsetLeft, 
+				y 	  = e.clientY - this.offsetTop;
+
+				_callbacks[ 'double' ]( x, y, this, _global );
+
 			});
 
 			_el.addEventListener( 'mouseup', function( e ) {
@@ -180,6 +191,14 @@ var Draggable = function( param ) {
 
 		return this;
 
+	}
+
+	Draggable.double = function( a ) {
+
+		_callbacks[ 'double' ] = a ;
+
+		return this;
+		
 	}
 
 	Draggable.drag = function( a ) {
