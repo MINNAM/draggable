@@ -7,6 +7,7 @@
 		html{
 
 		   height: 100%;
+		   background : rgb(230,230,230);
 
 		}
 
@@ -20,13 +21,16 @@
 
 			margin: 0;
 			padding: 0;
+			-webkit-user-select: none;
+    		 -moz-user-select: none;
+ 			 user-select: none;
 		}
 
 		.views {
 
 			display: inline-block;
 			width: 100%;
-			height: 100%;
+			height: 200%;
 
 		}
 
@@ -37,19 +41,19 @@
 
 		canvas {
 			 -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+ 			 -khtml-user-select: none;
+			  -moz-user-select: none;
+			  -o-user-select: none;
+			  user-select: none;
+
+			  background : white;
 		}
 
 		#homeContainer { 
+
 			display: inline-block;
 			width: 10%;
 			height: 100%;
-
-			border-right: 1px solid rgb(200,200,200);
-			
 
 		}
 
@@ -57,12 +61,12 @@
 
 			width: 100%;
 			height: 12%;
-			background: rgb(200,200,200);
+
 		}
 
 		#viewContainer { 
 			display: inline-block;
-			width: 70%;
+			width: 1024px;
 			height: 100%;
 
 		}
@@ -70,23 +74,41 @@
 	</style>
 </head>
 <body>
-
+<div style = 'width: 100%; height: 1%; display: inline-block;'>
+	
+</div>
 <div id = 'homeContainer' class = 'container'>
-<div id = 'logoContainer' >
-
-<p>Name of the App</p>
+	<div id = 'logoContainer' ></div>
 
 </div>
 
-</div>
 <div id = 'viewContainer' class = 'container'>
+	<div style = "width: 100%; height: 10%; display: inline-block; background: rgb(60,60,60); margin-bottom: 5px;">
+		<canvas id = 'ruler' style = 'width: 100%; height: 80%;'></canvas>
+	</div>
 	<canvas class = 'views' id = 'view1' ></canvas>
 	<canvas class = 'views' id = 'view2' ></canvas>
 </div>
 
+<script src = './View.js'></script>
+<script>
+	
+	var ruler = new Canvas( 'ruler' );
+
+
+	console.log( ruler.node() );
+
+</script>
 
 <script src = '../draggable.js'></script>
+
 <script>
+
+	var options = {
+
+		maxWidth : 600
+
+	}
 
 	var BoxManager = function() {
 
@@ -104,12 +126,22 @@
 			}
 		}
 
+		BoxManager.add = function( a, b ) {
+
+			this.nodes()[ a ] = b;
+			this.nodes()[ a ].id = this.nodes().length;
+
+		}
+
 		return BoxManager;
 
 	}();
 
+	var index = 0;
+
 	var Box = function( ctx, color ) {
 
+		this.id     = index++;
 		this.ctx    = ctx;
 		this.x 		= 0;
 		this.y 	    = 0;
@@ -162,7 +194,7 @@
 			
 			this.ctx.arc( this.x + this.width, this.y + this.height, 10, 0, Math.PI * 2 );
 
-			this.ctx.strokeColor = "grey";
+			this.ctx.strokeColor = "rgb(230,230,230)";
 			this.ctx.fillStyle = "white";
 
 			this.ctx.stroke();
@@ -171,64 +203,6 @@
 
 	}
 	
-
-	var CanvasManager = function() {
-
-		var CanvasList = new List();
-
-		return CanvasList;
-
-	}
-
-	var Canvas = function( _id ) {
-
-		var Canvas = {},
-		_node,
-		_ctx;
-
-		Canvas.init = function() {
-
-			_node = document.getElementById( _id );
-			_ctx  = _node.getContext( '2d' );
-
-			_node.width  = _node.clientWidth;
-			_node.height = _node.clientHeight;
-
-			return Canvas;
-
-		}
-
-		Canvas.node = function() {
-
-			return _node;
-
-		}
-
-		Canvas.ctx = function(){
-
-			return _ctx;
-
-		}
-
-		Canvas.clear = function() {
-
-			_ctx.clearRect( 0, 0, _node.clientWidth, _node.clientHeight );
-
-		}
-
-		Canvas.path = function( callback ) {
-
-			_ctx.beginPath();
-
-				callback( _ctx );
-
-			_ctx.closePath();
-
-		}
-
-		return Canvas.init();
-
-	}
 
 	var canvas = new Canvas( 'view1' );
 
@@ -259,11 +233,13 @@
 		}
 
 		canvas.clear();
+
 		BoxManager.update();
 
 
 	}).drag( function( x, y, el, global ) {
 		
+		console.log( x );
 	
 		canvas.path( function( ctx ) {
 
@@ -281,17 +257,14 @@
 
 	}).down( function( x, y, el, global ) {
 
-
 		global.box   = new Box( canvas.ctx(), 'rgb(100, 207, 168 )' );
 		global.box.x = x;
 		global.box.y = y;
-
 
 	}).up( function( x, y, el, global ){
 
 
 		BoxManager.add( BoxManager.size(), global.box );
-
 
 	});
 
@@ -314,11 +287,10 @@
 		canvas.clear();
 		BoxManager.update();
 
-		if( global.editor !== undefined ) {
+		
 
-			global.editor.displayMenu();
 
-		}
+		document.getElementById( 'logoContainer' ).innerHTML = global.box.id;
 
 
 
@@ -334,9 +306,6 @@
 
 		global.box.x = x - global.initialX;
 		global.box.y = y - global.initialY;
-
-		global.editor.x = x - global.initialX;
-		global.editor.y = y - global.initialY;
 	
 
 	}).down( function( x, y, el, global ) {

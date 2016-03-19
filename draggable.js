@@ -17,20 +17,20 @@ var Draggable = function( param ) {
 	_flag         = { drag : false, toggle : false },
 	_callbacks    = { 
 
-		move : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse moving.' ); },
+		move :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse moving.' ); },
 		double : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse double clicked.' ); },
-		drag : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse dragging.' ); },
-		up   : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse up' ); },
-		down : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse down' ); }
+		drag :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse dragging.' ); },
+		up   :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse up' ); },
+		down :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse down' ); }
 		
 	},
 	_temp = { 
 
-		move: function(){},
+		move:   function(){},
 		double: function(){},
-		drag: function(){},
-		up  : function(){},
-		down: function(){}
+		drag:   function(){},
+		up  :   function(){},
+		down:   function(){}
 
 	},
 	_global = { node: null };
@@ -63,7 +63,7 @@ var Draggable = function( param ) {
 			_el.addEventListener( 'mousemove', function( e ) {
 
 				var x = e.clientX - this.offsetLeft, 
-				y 	  = e.clientY - this.offsetTop;
+				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_callbacks[ 'move' ]( x, y, this, _global );
 
@@ -78,7 +78,7 @@ var Draggable = function( param ) {
 			_el.addEventListener( 'dblclick', function( e ) {
 
 				var x = e.clientX - this.offsetLeft, 
-				y 	  = e.clientY - this.offsetTop;
+				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_callbacks[ 'double' ]( x, y, this, _global );
 
@@ -87,7 +87,7 @@ var Draggable = function( param ) {
 			_el.addEventListener( 'mouseup', function( e ) {
 
 				var x = e.clientX - this.offsetLeft, 
-				y 	  = e.clientY - this.offsetTop;
+				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_flag.drag = false;
 
@@ -98,7 +98,7 @@ var Draggable = function( param ) {
 			_el.addEventListener( 'mousedown', function( e ) {
 
 				var x = e.clientX - this.offsetLeft, 
-				y 	  = e.clientY - this.offsetTop;
+				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_flag.drag = true;
 
@@ -254,7 +254,6 @@ var List = function() {
 
 	List.size = function() {
 
-		console.log( nodes.length );
 		return nodes.length;
 
 	}
