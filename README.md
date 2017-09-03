@@ -81,7 +81,7 @@ or
 ##### Canvas Example
 
 ```HTML
-<canvas id = 'myCanvas' width = '500' height = '500'></canvas>
+<canvas id = 'myCanvas'></canvas>
 <script src='./draggable.js'></script>
 <script>
 
