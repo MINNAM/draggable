@@ -4,17 +4,9 @@ A minimal javascript library for handling click and drag.
 ##### Basic Example
 
 ```HTML
-
 <script src='./draggable.js'></script>
-
-```
-
-
-
-```HTML
-
 <script>
-    var foo = new Draggable({ el: document.body });
+    var foo = new Draggable({ el: document.body, dev: true });
 </script>
 
 ```
