@@ -14,9 +14,7 @@ A minimal javascript library for handling click and drag.
 ```HTML
 
 <script>
-  
     var foo = new Draggable({ el: document.body });
-    
 </script>
 
 ```
@@ -28,18 +26,16 @@ Try this on an empty HTML and see what's being written in a console.
 ```javascript
 
 function( x, y, el ){
-      
-    console.log( 
-        
-        ' x:     ' + x + 
-        ' y:     ' + y + 
-        ' class: ' + el.getAttribute( 'class' ) + 
-        ' id:    ' + el.getAttribute( 'id' ) 
-          
+
+    console.log(
+        ' x:     ' + x +
+        ' y:     ' + y +
+        ' class: ' + el.getAttribute( 'class' ) +
+        ' id:    ' + el.getAttribute( 'id' )
     );
-        
+
 }
-  
+
 ```
 
 ##### Implementing Individual Callback Functions
@@ -47,7 +43,7 @@ function( x, y, el ){
 <script>
 
     var foo = new Draggable({
-        
+
         el:   document.body,
         move: function( x, y, el ){
             //...
@@ -61,7 +57,7 @@ function( x, y, el ){
         up  : function( x, y, el ){
             //...
         },
-      
+
     });
 
 </script>
@@ -72,13 +68,11 @@ or
 ```HTML
 
 <script>
-  
+
     var foo = new Draggable({ el: document.body });
-      
+
     foo.set( 'up', function( x, y, el ){
-      
         //...
-        
     });
 </script>
 
@@ -92,39 +86,34 @@ or
 <script>
 
     var myCanvas = document.getElementById( 'myCanvas' ),
-    ctx     	 = mainView.getContext( '2d'  ),
+    ctx          = myCanvas.getContext( '2d'  ),
     rectangle    = { x: 0, y: 0, width: 0, height: 0 },
-    draggable    = new Draggable({ el: myCanvas });
-    
-    drag.set( 'move', function( x, y, el ) {
-        
+    draggable    = new Draggable({ el: myCanvas, dev: true });
+
+    /* Set Canvas to full width and height */
+    myCanvas.width  = window.innerWidth;
+    myCanvas.height = window.innerHeight;
+
+    draggable.set( 'move', function( x, y, el ) {
         /* Clear the whole canvas */
         ctx.clearRect( 0, 0, el.clientWidth, el.clientHeight );
-    
     });
-    
-    drag.set( 'drag', function( x, y, el ) {
-    
-    	ctx.beginPath();
-    
-    		rectangle.width  = x - rectangle.x;
-    		rectangle.height = y - rectangle.y;
-    
-    		ctx.rect( rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-    		ctx.stroke();
-    
-    	ctx.closePath();
-    
+
+    draggable.set( 'drag', function( x, y, el ) {
+        ctx.beginPath();
+            rectangle.width  = x - rectangle.x;
+            rectangle.height = y - rectangle.y;
+            ctx.rect( rectangle.x, rectangle.y, rectangle.width, rectangle.height );
+            ctx.stroke();
+        ctx.closePath();
     });
-    
-    drag.set( 'down', function( x, y, el ) {
-    
-    	rectangle.x = x;
-    	rectangle.y = y;
-    
+
+    draggable.set( 'down', function( x, y, el ) {
+        rectangle.x = x;
+        rectangle.y = y;
     });
-    
-    drag.set( 'up', function(){} );
+
+    draggable.set( 'up', function(){} );
 
 </script>
 

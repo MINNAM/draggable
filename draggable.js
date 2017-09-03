@@ -1,12 +1,13 @@
 /**
  * author: Min Nam
  * url: https://github.com/MINNAM/draggable
- * 
+ *
  * Draggable handles click and drag events.
- * 
+ *
  * @param {HTML DOM ELEMENT} param.el
+ * @param {bool} param.dev When true, logs to console.
  * @param {function} param.move Default event, triggered when mouse is moved.
- * @param {function} param.drag Drag event, triggered when drag flag is on. 
+ * @param {function} param.drag Drag event, triggered when drag flag is on.
  * @param {function} param.up   Mouse up event, sets drag flag off
  * @param {function} param.down Mouse down event, sets drag flag on
  */
@@ -15,16 +16,16 @@ var Draggable = function( param ) {
 	var Draggable = {},
 	_el,
 	_flag         = { drag : false, toggle : false },
-	_callbacks    = { 
+	_callbacks    = {
 
-		move :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse moving.' ); },
-		double : function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse double clicked.' ); },
-		drag :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse dragging.' ); },
-		up   :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse up' ); },
-		down :   function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse down' ); }
-		
+		move :   param.dev ? function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse moving.' ); } : function(){},
+		double : param.dev ? function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse double clicked.' ); } : function(){},
+		drag :   param.dev ? function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse dragging.' ); } : function(){},
+		up   :   param.dev ? function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse up' ); } : function(){},
+		down :   param.dev ? function( a, b ){ console.log( 'x: ' + a + ' y: ' + b + ' mouse down' ); } : function(){}
+
 	},
-	_temp = { 
+	_temp = {
 
 		move:   function(){},
 		double: function(){},
@@ -34,7 +35,7 @@ var Draggable = function( param ) {
 
 	},
 	_global = { node: null };
-	
+
 	/**
 	 * Add events done here.
 	 * @return {Object} Draggable object
@@ -45,7 +46,7 @@ var Draggable = function( param ) {
 
 			if( param.el === undefined ) {
 
-				throw "Draggable: HTML DOM Element must be supplied."; 
+				throw "Draggable: HTML DOM Element must be supplied.";
 
 			}
 
@@ -55,14 +56,14 @@ var Draggable = function( param ) {
 
 				if( _callbacks[ key ] != undefined ) {
 
-					this.set( key, param[ key ] ); 
+					this.set( key, param[ key ] );
 				}
-				
+
 			}
 
 			_el.addEventListener( 'mousemove', function( e ) {
 
-				var x = e.clientX - this.offsetLeft, 
+				var x = e.clientX - this.offsetLeft,
 				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_callbacks[ 'move' ]( x, y, this, _global );
@@ -72,12 +73,12 @@ var Draggable = function( param ) {
 					_callbacks[ 'drag' ]( x, y, this, _global  );
 
 				}
-				
+
 			});
 
 			_el.addEventListener( 'dblclick', function( e ) {
 
-				var x = e.clientX - this.offsetLeft, 
+				var x = e.clientX - this.offsetLeft,
 				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_callbacks[ 'double' ]( x, y, this, _global );
@@ -86,7 +87,7 @@ var Draggable = function( param ) {
 
 			_el.addEventListener( 'mouseup', function( e ) {
 
-				var x = e.clientX - this.offsetLeft, 
+				var x = e.clientX - this.offsetLeft,
 				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_flag.drag = false;
@@ -97,7 +98,7 @@ var Draggable = function( param ) {
 
 			_el.addEventListener( 'mousedown', function( e ) {
 
-				var x = e.clientX - this.offsetLeft, 
+				var x = e.clientX - this.offsetLeft,
 				y 	  = e.clientY - this.offsetTop + document.body.scrollTop;
 
 				_flag.drag = true;
@@ -106,9 +107,9 @@ var Draggable = function( param ) {
 
 			});
 
-			
 
-		} catch( err ) { 
+
+		} catch( err ) {
 
 			console.error( err );
 
@@ -120,7 +121,7 @@ var Draggable = function( param ) {
 
 	/**
 	 * Calls callback function
-	 * 
+	 *
 	 * @param  {string} a Key of a callback function to call.
 	 */
 	Draggable.call = function( a ) {
@@ -130,11 +131,11 @@ var Draggable = function( param ) {
 			_callbacks[ a ]();
 
 		}
-		
+
 	}
 	/**
 	 * Sets callback function.
-	 * 
+	 *
 	 * @param {string}   a Key of a callback function to replace.
 	 * @param {Function} b Callback function.
 	 */
@@ -172,7 +173,7 @@ var Draggable = function( param ) {
 			}
 
 		} else {
-			
+
 			if( _flag.toggle ) {
 
 				var temp     = _callbacks;
@@ -198,7 +199,7 @@ var Draggable = function( param ) {
 		_callbacks[ 'double' ] = a ;
 
 		return this;
-		
+
 	}
 
 	Draggable.drag = function( a ) {
@@ -206,7 +207,7 @@ var Draggable = function( param ) {
 		_callbacks[ 'drag' ] = a ;
 
 		return this;
-		
+
 	}
 
 	Draggable.down = function( a ) {
@@ -214,7 +215,7 @@ var Draggable = function( param ) {
 		_callbacks[ 'down' ] = a ;
 
 		return this;
-		
+
 	}
 
 	Draggable.up = function( a ) {
@@ -222,7 +223,7 @@ var Draggable = function( param ) {
 		_callbacks[ 'up' ] = a ;
 
 		return this;
-		
+
 	}
 
 	return init();
@@ -277,7 +278,7 @@ var DraggableManager = function() {
 				draggables[ key ].toggle( false );
 				continue;
 
-			} 
+			}
 
 			if( draggables[ key ] !== undefined ) {
 

@@ -1,0 +1,86 @@
+<html>
+<style>
+    body,html {
+        width: 100%;
+        height: 100%;
+        font-family: Verdana;
+    }
+    #instruction {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 30px;
+        color: rgb(220,220,220);
+        z-index: -1;
+    }
+</style>
+<body>
+    <div id = 'instruction'>
+        Click Letters and Drag
+    </div>
+    <canvas id = 'myCanvas'></canvas>
+    <script src='../draggable.js'></script>
+    <script>
+        var myCanvas = document.getElementById('myCanvas'),
+        ctx = myCanvas.getContext('2d'),
+        draggable = new Draggable({ el: myCanvas, dev: true });
+        var letters = [
+            { content: 'W', selected: false, x: 0, y: 0 },
+            { content: 'H', selected: false, x: 0, y: 0 },
+            { content: 'I', selected: false, x: 0, y: 0 },
+            { content: 'T', selected: false, x: 0, y: 0 },
+            { content: 'E', selected: false, x: 0, y: 0 },
+            { content: '&', selected: false, x: 0, y: 0 },
+            { content: 'P', selected: false, x: 0, y: 0 },
+            { content: 'I', selected: false, x: 0, y: 0 },
+            { content: 'N', selected: false, x: 0, y: 0 },
+            { content: 'K', selected: false, x: 0, y: 0 },
+        ];
+
+        /* Set Canvas to full width and height */
+        myCanvas.width = window.innerWidth;
+        myCanvas.height = window.innerHeight;
+
+        function draw (x,y) {
+            for (var i = 0, max = letters.length; i < max; i++) {
+                ctx.beginPath();
+                    if (letters[i].selected == true) {
+                        letters[i].x = x;
+                        letters[i].y = y;
+                    }
+                    ctx.font="200px Verdana";
+                    ctx.fillText(letters[i].content, letters[i].x + 0, letters[i].y + 150);
+                    ctx.fillStyle ='rgba(0,0,0,0.9)';
+            		ctx.stroke();
+            	ctx.closePath();
+            }
+        }
+
+        /* Initial drawing*/
+        ctx.beginPath();
+            draw(0,0);
+        ctx.closePath();
+
+        draggable.set( 'drag', function(x, y, el) {
+            ctx.clearRect(0, 0, el.clientWidth, el.clientHeight );
+            draw(x,y);
+        });
+
+        draggable.set( 'down', function(x, y, el) {
+            for (var i = 0, max = letters.length; i < max; i++) {
+                if ((letters[i].x <= x && letters[i].x + 200 >= x) && (letters[i].y <= y && letters[i].y + 200 >= y)) {
+                    letters[i].selected = true;
+                    break;
+                }
+            }
+        });
+
+        draggable.set( 'up', function(){
+            for (var i = 0, max = letters.length; i < max; i++) {
+                letters[i].selected = false;
+            }
+        });
+    </script>
+</body>
+</html>
